@@ -12,6 +12,9 @@
     <!-- <el-button type="primary" @click="copyToClipboard">复制代码</el-button> -->
     <el-button type="primary" @click="downloadFile" class="download-button">Download file</el-button>
   </div>
+  <div class="video-container">
+    <iframe width="320" height="230" src="https://www.youtube.com/embed/pvadJJdv_Wg?si=MkfJniZmfgdGqzAx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
   <FeedbackSection /> 
 </template>
 
@@ -107,5 +110,11 @@ const generateMethod = computed(() => {
 /* 新增样式 */
 .download-button {
   margin-top: 20px; /* 调整间距 */
+}
+/* 居中对齐视频 */
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 </style>
