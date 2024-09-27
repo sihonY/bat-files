@@ -7,8 +7,8 @@
       </div>
     </header>
     <main class="app-main">
-      <el-steps :active="1" finish-status="success" class="steps-container" responsive>
-        <el-step title="Step One" description="Create your Command" />
+      <el-steps :active="0" finish-status="wait" class="steps-container" responsive v-show="false">
+        <el-step title="Step One" description="Setup your Command" />
         <el-step title="Step Two" description="Download your .bat file" />
         <el-step title="Step Three" description="Run it on any Computer!" />
       </el-steps>

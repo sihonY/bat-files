@@ -14,8 +14,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 连接到 Firestore Emulator
-if (window.location.hostname === 'localhost') {
-    connectFirestoreEmulator(db, 'localhost', 8080);
-  }
+// // 连接到 Firestore Emulator
+// if (window.location.hostname === 'localhost') {
+//     connectFirestoreEmulator(db, 'localhost', 8080);
+//   }
 export { db };

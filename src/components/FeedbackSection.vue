@@ -3,7 +3,7 @@
         <div class="feedback-row">
             <el-button type="primary" @click="like" :disabled="liked" class="like-button">
                 <svg-icon :path="liked ? mdiHeart : mdiHeartOutline" class="heart-icon" viewBox="0 0 24 24" :size="15" />
-                {{ liked ? 'Liked' : 'Like' }}<span class="like-count">({{ likeCount }})</span>
+                {{ liked ? 'Liked' : 'Like' }}<span class="like-count">{{ likeCount>0?'('+likeCount+')':'' }}</span>
             </el-button>
             <span class="separator">|</span>
             
