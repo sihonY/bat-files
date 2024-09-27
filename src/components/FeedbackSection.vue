@@ -1,9 +1,9 @@
 <template>
     <div class="feedback-section">
         <div class="feedback-row">
-            <el-button type="primary" @click="like" :disabled="liked" class="like-button">
+            <el-button type="primary" @click="handleLike" :disabled="liked" class="like-button">
                 <svg-icon :path="liked ? mdiHeart : mdiHeartOutline" class="heart-icon" viewBox="0 0 24 24" :size="15" />
-                {{ liked ? 'Liked' : 'Like' }}<span class="like-count">{{ likeCount>0?'('+likeCount+')':'' }}</span>
+                {{ liked ? 'Liked' : 'Like' }}
             </el-button>
             <span class="separator">|</span>
             
@@ -19,46 +19,31 @@
 import { ref, onMounted } from 'vue';
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiHeart, mdiHeartOutline } from '@mdi/js';
-import { db } from '../firebaseConfig';
-import { doc, getDoc, setDoc, updateDoc, increment } from 'firebase/firestore';
 
 const email = 'jgyuanxh@gmail.com';
-const likeCount = ref(0);
 const liked = ref(false);
 
-const fetchLikeCount = async () => {
-    try {
-        const docRef = doc(db, 'feedback', 'likeCount');
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            likeCount.value = docSnap.data().count;
-        } else {
-            console.log('No such document! Creating a new one.');
-            await setDoc(docRef, { count: 0 });
-            likeCount.value = 0;
-        }
-    } catch (error) {
-        console.error('Error fetching like count:', error);
-    }
-};
-
-const like = async () => {
-    try {
-        const docRef = doc(db, 'feedback', 'likeCount');
-        await updateDoc(docRef, {
-            count: increment(1)
-        });
-        likeCount.value += 1;
-        liked.value = true;
-    } catch (error) {
-        console.error('Error updating like count:', error);
-    }
-};
-
+// 检查本地存储
 onMounted(() => {
-    fetchLikeCount();
+    const likedStatus = localStorage.getItem('liked');
+    liked.value = likedStatus === 'true';
 });
+
+// 处理 Like 点击事件
+const handleLike = () => {
+    if (!liked.value) {
+        // 触发 Google Analytics 自定义事件
+        window.gtag('event', 'like', {
+            event_category: 'engagement',
+            event_label: 'like_button',
+            value: 1,
+        });
+
+        // 更新本地存储
+        localStorage.setItem('liked', 'true');
+        liked.value = true;
+    }
+};
 </script>
 
 <script>
@@ -102,13 +87,6 @@ export default {
 
 .feedback-section .heart-icon {
     margin-right: 5px;
-}
-
-.feedback-section .like-count {
-    display: inline-block;
-    margin-left: 3px;
-    font-size: 0.9em;
-    color: white;
 }
 
 .separator {
