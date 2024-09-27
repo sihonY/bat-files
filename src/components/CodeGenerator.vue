@@ -12,6 +12,7 @@
     <!-- <el-button type="primary" @click="copyToClipboard">复制代码</el-button> -->
     <el-button type="primary" @click="downloadFile" class="download-button">Download file</el-button>
   </div>
+  <FeedbackSection /> 
 </template>
 
 <script setup>

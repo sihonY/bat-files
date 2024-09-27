@@ -34,7 +34,9 @@ import { ref } from 'vue';
 import RenameComponent from './components/RenameComponent.vue';
 import { inject } from "@vercel/analytics"
 const activeTab = ref('rename');
+
 inject();
+
 </script>
 
 <style>
@@ -187,5 +189,23 @@ h2 {
 
 .header-content h1, .header-content h2 {
   animation: fadeIn 1s ease-out;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  background-color: #7c3aed; /* 自定义选中背景色 */
+  border-color: #7c3aed; /* 自定义选中边框色 */
+}
+
+.el-radio__input.is-checked + .el-radio__label {
+  color: #7c3aed; /* 自定义选中文本颜色 */
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: #7c3aed; /* 自定义选中背景色 */
+  border-color: #7c3aed; /* 自定义选中边框色 */
+}
+
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #7c3aed; /* 自定义选中文本颜色 */
 }
 </style>
