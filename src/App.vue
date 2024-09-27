@@ -25,14 +25,16 @@
         </el-tab-pane>
       </el-tabs>
     </main>
+    <!-- <Analytics/> -->
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import RenameComponent from './components/RenameComponent.vue';
-
+import { inject } from "@vercel/analytics"
 const activeTab = ref('rename');
+inject();
 </script>
 
 <style>
