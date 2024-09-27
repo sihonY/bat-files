@@ -12,7 +12,7 @@
     <el-input
       v-if="matchType !== 'match'"
       v-model="plainTextFilter"
-      placeholder="Empty value will match all files/directories"
+      placeholder="Empty value will match all files/directories, including .bat files"
       class="filter-input"
     ></el-input>
     <el-input

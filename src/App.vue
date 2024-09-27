@@ -3,7 +3,7 @@
     <header class="app-header">
       <div class="header-content">
         <h1>Bat File</h1>
-        <h2>Batch Rename Your Files Easily</h2>
+        <h2>Easily Create you batch rename file</h2>
       </div>
     </header>
     <main class="app-main">

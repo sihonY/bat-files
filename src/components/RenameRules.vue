@@ -39,7 +39,7 @@
         <!-- 添加提示信息 -->
         <el-alert
           v-if="activeRenameTab === 'regex'"
-          title="The PowerShell script will be generated under regex mode"
+          title="The PowerShell script will be generated in regex mode"
           type="info"
           show-icon
         ></el-alert>
@@ -154,7 +154,7 @@ function applyAdvancedPattern(pattern, filename) {
   }
 
   if (numMatch) {
-    result = result.replace('{{num}}', '1'); // 假设 1 为起始数字
+    result = result.replace(/{{num}}/, '1'); // 假设 1 为起始数字
   }
 
   if (extensionMatch) {
@@ -183,7 +183,7 @@ function applyRegexPattern(regex, newName, filename) {
 
     let result = newName;
     for (let i = 1; i < matches.length; i++) {
-      result = result.replace(new RegExp(`\\{\\$${i}\\}`, 'g'), matches[i] || '');
+      result = result.replace(new RegExp(`\\{\\{\\$${i}\\}\\}`, 'g'), matches[i] || '');
     }
 
     // 处理 {{n}} 形式的占位符

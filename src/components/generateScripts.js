@@ -7,6 +7,9 @@
  */
 function setFileFilter(fileFilter, scriptType, targetType = '') {
   let script = '';
+  const excludeExtensions = ['.bat', '.ps1', '.sh'];
+  const excludeExtensionsPattern = excludeExtensions.join('|').replace(/\./g, '\\.');
+
   if (scriptType === 'batch') {
     let filePattern = '*';
     if (fileFilter.filterType === 'name' && fileFilter.filterValue) {
@@ -27,6 +30,8 @@ function setFileFilter(fileFilter, scriptType, targetType = '') {
     } else {
       script += `set "filePattern=${filePattern}"\n`;
     }
+    script += `set "excludeExtensions=${excludeExtensions.join(',')}"\n`;
+    script += `set "excludePattern=*.bat;*.ps1;*.sh"\n`; // 添加排除模式
   } else if (scriptType === 'powershell') {
     let filter = '*';
     if (fileFilter.filterType === 'name' && fileFilter.filterValue) {
@@ -42,7 +47,8 @@ function setFileFilter(fileFilter, scriptType, targetType = '') {
           break;
       }
     }
-    script += `Get-ChildItem -Path . ${targetType} -Filter "${filter}" | ForEach-Object {\n`;
+    script += `$excludeExtensions = @('${excludeExtensions.join("','")}')\n`;
+    script += `Get-ChildItem -Path . ${targetType} -Filter "${filter}" | Where-Object { $_.Extension -notin $excludeExtensions } | ForEach-Object {\n`;
   } else if (scriptType === 'shell') {
     if (fileFilter.filterType === 'name' && fileFilter.filterValue) {
       switch (fileFilter.matchType) {
@@ -60,7 +66,7 @@ function setFileFilter(fileFilter, scriptType, targetType = '') {
     } else {
       script += `filePattern="*"\n`;
     }
-    script += `findCommand="find . ${targetType} -name \\"$filePattern\\""\n`;
+    script += `findCommand="find . ${targetType} -name \\"$filePattern\\" ! -regex '.*\\.(${excludeExtensionsPattern})$'"\n`;
   }
   return script;
 }
@@ -331,6 +337,7 @@ function setDirectory(directoryScope, scriptType) {
   return script;
 }
 
+//fixed
 function setRenameLogic(directoryScope, fileFilter, renameRules, scriptType) {
   let script = '';
   let recurse = directoryScope.includeSubdirectories ? (scriptType === 'batch' ? '/r' : '-Recurse') : '';
